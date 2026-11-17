@@ -21,31 +21,32 @@ option; the unexpected behavior is the child-before-privileged-failure ordering.
 | Xperf result | Access denied, `0x80070005` |
 | Child result | Executed and created the benign marker |
 
-The non-GUI [`POC/Test-XperfProxy.ps1`](POC/Test-XperfProxy.ps1) uses a unique
-session name, writes only under `%TEMP%`, and stops the session if an elevated
-run succeeds.
-
 ## Message-box proof of concept
 
 Build the benign child from an **x64 Native Tools Command Prompt for Visual
 Studio**:
 
 ```cmd
-cd xperf\POC
+cd /d <path-to-xperf-poc>
 nmake
 ```
 
-Then run from PowerShell:
+Run the validation from a standard Command Prompt:
 
-```powershell
-Set-Location .\xperf\POC
-.\Test-XperfMessageBox.ps1
+```cmd
+"C:\Program Files (x86)\Windows Kits\10\Windows Performance Toolkit\xperf.exe" -start XperfMessageBoxValidation -heap -PidNewProcess "<path-to-test.exe>" -WaitForNewProcess
 ```
 
 Expected standard-user result: the selected child displays a defensive
-validation message box, and Xperf later reports access denied for the ETW
-session. Dismiss the dialog to let the child exit. Run `nmake clean` to remove
-the local compiler outputs.
+validation message box. After the dialog is dismissed, Xperf reports access
+denied (`0x80070005`) while creating the private ETW logger. This demonstrates
+that the child starts before the privileged trace setup fails.
+
+Remove the local compiler outputs when finished:
+
+```cmd
+nmake clean
+```
 
 ## Detection opportunities
 
@@ -56,3 +57,7 @@ the local compiler outputs.
 This is process-parent proxy execution, not an application-control bypass;
 policy still applies to the selected child. The proposed entry is
 [`lolbas/Xperf.yml`](lolbas/Xperf.yml).
+
+## References
+
+- [Microsoft Xperf `start` documentation](https://learn.microsoft.com/en-us/windows-hardware/test/wpt/start)
