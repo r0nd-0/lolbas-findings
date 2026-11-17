@@ -1,0 +1,20 @@
+; Syntactically valid INF used only to satisfy infgate's option validation.
+; Its contents do not name, embed, compile, or invoke the payload DLL.
+[Version]
+Signature="$Windows NT$"
+Class=System
+ClassGuid={4D36E97D-E325-11CE-BFC1-08002BE10318}
+Provider=%ProviderName%
+DriverVer=01/01/2026,1.0.0.0
+
+[Manufacturer]
+%ProviderName%=Models,NTamd64
+
+[Models.NTamd64]
+%DeviceName%=Install,ROOT\INFGATE_VALIDATION
+
+[Install]
+
+[Strings]
+ProviderName="INFGate validation"
+DeviceName="INFGate validation device"
