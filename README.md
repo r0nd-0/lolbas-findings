@@ -45,14 +45,14 @@ provided as source with local build instructions.
 
 ## Findings
 
-| Finding | Validation | Upstream plan |
-|---|---|---|
-| [Dxcap `-expdll`](dxcap-expdll/) | Confirmed on current Windows 11 build | Delta to existing `Dxcap.yml` |
-| [VcxprojReader](vcxprojreader/) | Confirmed inline C# and child-process paths | New `OtherMSBinaries` entry |
-| [NuGet.Build.Tasks.Console](nuget-build-tasks-console/) | Confirmed inline task execution | New `OtherMSBinaries` entry |
-| [`lc.exe`](lc/) | Confirmed unsigned component construction | New `OtherMSBinaries` entry |
-| [Xperf](xperf/) | Confirmed child-before-ETW-failure behavior | New entry; maintainer acceptance uncertain |
-| [Microsoft.XslDebugger.Host](microsoft-xsldebugger-host/) | Overlaps an active upstream contribution | Coordinate with PR #496 |
+| Finding | Validation |
+|---|---|
+| [Dxcap `-expdll`](dxcap-expdll/) | Confirmed on a current Windows 11 build that `-expdll` loads a caller-selected DLL before resolving the optional `ListExperiments` export. A signed system DLL produced the expected post-load missing-export diagnostic. The source PoC provides a visible message-box confirmation without persistence or network activity. |
+| [VcxprojReader](vcxprojreader/) | Confirmed that the signed Visual Studio reader evaluates caller-controlled MSBuild XML and invokes fixed design-time targets. A redefined target executed inline C# through `CodeTaskFactory` inside `VcxprojReader.exe` as a standard user. The retained project displays a benign message box to identify successful execution. |
+| [NuGet.Build.Tasks.Console](nuget-build-tasks-console/) | Confirmed that the signed NuGet restore host evaluates a caller-supplied MSBuild project and builds `_CollectRestoreInputs`. A `RoslynCodeTaskFactory` task executed inline C# inside `NuGet.Build.Tasks.Console.exe` at medium integrity. Execution completes before the minimal project reaches its expected downstream restore error and exit code `1`. |
+| [`lc.exe`](lc/) | Confirmed that the .NET Framework License Compiler loads an unsigned assembly supplied through `/i` and instantiates the component named by a `.licx` file. The component constructor ran inside the installed `lc.exe` process without elevation or host relocation. The PoC uses a local message box and leaves no persistent changes. |
+| [Xperf](xperf/) | Confirmed that `-PidNewProcess` starts the selected child before private ETW session creation completes. Under a standard user, the benign child executed even though Xperf subsequently returned access denied for the ETW operation. This is a parent-process proxy behavior and does not bypass policy enforcement on the child executable. |
+| [Microsoft.XslDebugger.Host](microsoft-xsldebugger-host/) | Confirmed that the signed Visual Studio XSLT host accepts local XML and XSL input and enables inline `msxsl:script` execution with `/enable:all`. The retained stylesheet displayed a benign message box from inline C# and returned the expected validation text. The behavior is same-user execution and does not cross a privilege boundary. |
 
 ## Project relationship
 
