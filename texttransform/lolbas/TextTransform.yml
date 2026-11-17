@@ -1,0 +1,37 @@
+---
+Name: TextTransform.exe
+Description: Microsoft Visual Studio T4 command-line host used to transform text templates containing C# or VB code.
+Author: 'Cory Rondorf (@r0nd-0)'
+Created: 2026-11-17
+Commands:
+  - Command: TextTransform.exe -out C:\Users\Public\output.txt {PATH_ABSOLUTE:.tt}
+    Description: Compiles and executes caller-controlled inline C# or VB template code in-process through TextTransformCore.exe. Template code can call native APIs through P/Invoke without a separate payload executable or DLL.
+    Usecase: Execute arbitrary inline C# or VB through a Microsoft-signed Visual Studio utility.
+    Category: Execute
+    Privileges: User
+    MitreID: T1127
+    OperatingSystem: Windows 10, Windows 11
+    Tags:
+      - Execute: C#
+  - Command: TextTransform.exe -out C:\Users\Public\output.txt {PATH_ABSOLUTE:.tt}
+    Description: Inline template code is compiled and executed in-process, so no separate attacker executable or DLL is required for an executable-only application-control policy to evaluate.
+    Usecase: Bypass application allow-listing that trusts signed executables but does not inspect caller-controlled template content.
+    Category: AWL Bypass
+    Privileges: User
+    MitreID: T1127
+    OperatingSystem: Windows 10, Windows 11
+    Tags:
+      - Execute: C#
+Full_Path:
+  - Path: C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\TextTransform.exe
+  - Path: C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\TextTransformCore.exe
+Code_Sample:
+  - Code: https://github.com/r0nd-0/lolbas-findings/blob/main/texttransform/POC/msgbox.tt
+Detection:
+  - IOC: TextTransform.exe or TextTransformCore.exe launched by an interactive or non-build parent.
+  - IOC: A template argument located in a user-writable, temporary, or download directory.
+  - IOC: TextTransformCore.exe loading an unsigned assembly, making a network connection, or spawning a child process.
+Resources:
+  - Link: https://github.com/r0nd-0/lolbas-findings/tree/main/texttransform
+Acknowledgement:
+  - Person: 'Cory Rondorf (@r0nd-0)'

@@ -1,0 +1,19 @@
+<#@ template language="C#" #>
+<#@ assembly name="System.dll" #>
+<#@ import namespace="System" #>
+<#@ import namespace="System.Runtime.InteropServices" #>
+<#
+    [DllImport("user32.dll", CharSet = CharSet.Unicode)]
+    static extern int MessageBoxW(
+        IntPtr window,
+        string text,
+        string caption,
+        uint type);
+
+    MessageBoxW(
+        IntPtr.Zero,
+        "Inline T4 C# executed inside the signed TextTransform host.",
+        "LOLBAS Defensive Validation",
+        0x40);
+#>
+Validation completed

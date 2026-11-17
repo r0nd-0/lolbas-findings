@@ -53,6 +53,7 @@ provided as source with local build instructions.
 | [`lc.exe`](lc/) | The .NET Framework License Compiler loads an unsigned assembly supplied through `/i` and instantiates the component named by a `.licx` file. The component constructor ran inside the installed `lc.exe` process without elevation or host relocation. The PoC uses a local message box and leaves no persistent changes. |
 | [Xperf](xperf/) | The `-PidNewProcess` option starts the selected child before private ETW session creation completes. Under a standard user, the benign child executed even though Xperf subsequently returned access denied for the ETW operation. This is a parent-process proxy behavior and does not bypass policy enforcement on the child executable. |
 | [Microsoft.XslDebugger.Host](microsoft-xsldebugger-host/) | The signed Visual Studio XSLT host accepts local XML and XSL input and enables inline `msxsl:script` execution with `/enable:all`. The retained stylesheet displayed a benign message box from inline C# and returned the expected validation text. The behavior is same-user execution and does not cross a privilege boundary. |
+| [TextTransform](texttransform/) | The signed Visual Studio T4 host compiles and executes inline C# or VB from a caller-selected template. Current validation produced both a benign message box and a timestamp-only marker without elevation or persistence. The behavior provides same-user proxy execution and defensive detection opportunities around unexpected template processing. |
 
 ## Project relationship
 
