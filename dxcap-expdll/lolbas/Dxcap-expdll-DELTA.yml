@@ -22,7 +22,7 @@
   - Command: Dxcap.exe -measure -expdll {PATH_ABSOLUTE:.dll}
     Description: Loads a caller-selected DLL into the signed process without relocating Dxcap.exe. This can bypass policies that trust the signed executable but do not enforce a DLL rule collection. WDAC and other controls may still evaluate and block the module load.
     Usecase: Bypass executable-only application allow-listing by loading code from an arbitrary DLL path into a signed, in-box binary.
-    Category: AWL bypass
+    Category: AWL Bypass
     Privileges: User
     MitreID: T1218
     OperatingSystem: Windows 10, Windows 11

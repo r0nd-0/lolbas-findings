@@ -1,7 +1,7 @@
 ---
 Name: NuGet.Build.Tasks.Console.exe
 Description: Microsoft NuGet static-graph restore console included with Visual Studio and used to evaluate project dependency graphs during restore.
-Author: Cory Rondorf
+Author: 'Cory Rondorf (@r0nd-0)'
 Created: 2026-10-27
 Commands:
   - Command: NuGet.Build.Tasks.Console.exe "RestoreRecursive=false" "C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\MSBuild.exe" "{PATH_ABSOLUTE:.csproj}" "TargetFramework=net472"
@@ -16,7 +16,7 @@ Commands:
   - Command: NuGet.Build.Tasks.Console.exe "RestoreRecursive=false" "C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\MSBuild.exe" "{PATH_ABSOLUTE:.csproj}" "TargetFramework=net472"
     Description: Inline task code is compiled and executed in-process, so the technique does not require a separate attacker executable or DLL for an executable-only application-control policy to evaluate. The inline code itself may still create child processes.
     Usecase: Bypass application allow-listing that only trusts signed executables.
-    Category: AWL bypass
+    Category: AWL Bypass
     Privileges: User
     MitreID: T1127
     OperatingSystem: Windows 10, Windows 11
@@ -35,4 +35,3 @@ Resources:
   - Link: https://github.com/r0nd-0/lolbas-findings/tree/main/nuget-build-tasks-console
 Acknowledgement:
   - Person: Cory Rondorf
-    Handle: '@r0nd-0'

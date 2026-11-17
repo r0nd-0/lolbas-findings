@@ -115,6 +115,8 @@ App Control, or endpoint security products.
 
 The [`lolbas/`](lolbas/) directory contains:
 
+- [`Dxcap.yml`](lolbas/Dxcap.yml): the complete upstream-ready entry with the
+  existing content and this finding merged.
 - [`Dxcap-expdll-DELTA.yml`](lolbas/Dxcap-expdll-DELTA.yml): command blocks to
   merge into the existing entry.
 - [`UPSTREAM-INTEGRATION.md`](lolbas/UPSTREAM-INTEGRATION.md): code-sample,

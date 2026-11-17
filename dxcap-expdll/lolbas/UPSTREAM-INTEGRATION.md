@@ -24,6 +24,8 @@ Detection:
 Resources:
   - Link: https://github.com/r0nd-0/lolbas-findings/tree/main/dxcap-expdll
 Acknowledgement:
-  - Person: Cory Rondorf
-    Handle: '@r0nd-0'
+  - Person: 'Cory Rondorf (@r0nd-0)'
 ```
+
+For submission, copy the fully merged `Dxcap.yml` from this directory over the
+existing upstream file. The delta remains only as a concise research reference.
