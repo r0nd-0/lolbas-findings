@@ -1,0 +1,31 @@
+---
+# HOLD — do not open a competing new-entry PR while LOLBAS PR #496 is active.
+# Retain this file as research for the direct remote-input retrieval behavior and
+# coordinate any material delta with the existing contributor.
+Name: Microsoft.XslDebugger.Host.exe
+Description: Microsoft Visual Studio host used to execute and debug XSLT transformations.
+Author: Cory Rondorf
+Created: 2026-10-27
+Commands:
+  - Command: Microsoft.XslDebugger.Host.exe http://example.test/input.xml C:\Users\Public\local.xsl
+    Description: The first positional argument is the transformation input document. When supplied as a remote URI it is fetched through the .NET XML resolver for use by the transformation. Revalidate the supported URI schemes and determine whether a durable cache artifact is created on the exact build before proposing this as an additional command in the existing upstream entry.
+    Usecase: Cause a Microsoft-signed binary to retrieve a remote XML input for transformation.
+    Category: Download
+    Privileges: User
+    MitreID: T1105
+    OperatingSystem: Windows 10, Windows 11
+    Tags:
+      - Download: HTTP
+Full_Path:
+  - Path: C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\Xml\Microsoft.XslDebugger.Host.exe
+Code_Sample:
+  - Code: https://github.com/r0nd-0/lolbas-findings/blob/main/microsoft-xsldebugger-host/POC/Test-XslDebuggerMessageBox.ps1
+Detection:
+  - IOC: Microsoft.XslDebugger.Host.exe making an outbound HTTP GET or UNC access to a non-local host.
+  - IOC: The binary launched by a non-Visual-Studio parent, especially with an http:// or \\UNC first argument.
+  - IOC: Resolver or cache writes attributable to this process outside an interactive XSLT debugging session, when present on the tested build.
+Resources:
+  - Link: https://github.com/LOLBAS-Project/LOLBAS/pull/496
+Acknowledgement:
+  - Person: Cory Rondorf
+    Handle: '@r0nd-0'

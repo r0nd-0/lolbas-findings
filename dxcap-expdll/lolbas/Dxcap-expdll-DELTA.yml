@@ -1,0 +1,30 @@
+# DELTA — do NOT submit as a new file.
+# Add the two Command entries below to the EXISTING LOLBAS entry
+# yml/OtherMSBinaries/Dxcap.yml, inside its Commands: list. The existing entry
+# already documents the -c child-process and -usage/xperf.exe behaviors.
+#
+# Confirmed 2026-10-27 on C:\Windows\System32\dxcap.exe (build 10.0.26100.9549).
+# `-expdll` is an undocumented option in Dxcap's -measure/experiment option group
+# (Ghidra option-name table @0x1401162e0). It LoadLibrary()s the given DLL and runs
+# DllMain BEFORE resolving the ListExperiments export (proven by the -explist
+# diagnostic: "The specified experiment DLL (<path>) does not export the
+# ListExperiments entry point"). Arbitrary path, arbitrary name, host not relocated.
+
+  - Command: Dxcap.exe -measure -expdll {PATH_ABSOLUTE:.dll}
+    Description: The undocumented -expdll option, valid inside -measure mode, passes the caller-selected DLL path to LoadLibrary. DllMain executes before Dxcap attempts to resolve the optional ListExperiments export, so the DLL does not need to implement a valid experiment-provider interface.
+    Usecase: Execute code from a caller-selected DLL inside a Microsoft-signed, in-box binary without relocating Dxcap.exe.
+    Category: Execute
+    Privileges: User
+    MitreID: T1218
+    OperatingSystem: Windows 10, Windows 11
+    Tags:
+      - Execute: DLL
+  - Command: Dxcap.exe -measure -expdll {PATH_ABSOLUTE:.dll}
+    Description: Loads a caller-selected DLL into the signed process without relocating Dxcap.exe. This can bypass policies that trust the signed executable but do not enforce a DLL rule collection. WDAC and other controls may still evaluate and block the module load.
+    Usecase: Bypass executable-only application allow-listing by loading code from an arbitrary DLL path into a signed, in-box binary.
+    Category: AWL bypass
+    Privileges: User
+    MitreID: T1218
+    OperatingSystem: Windows 10, Windows 11
+    Tags:
+      - Execute: DLL

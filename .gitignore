@@ -1,0 +1,36 @@
+# Microsoft and compiled binaries are intentionally excluded.
+*.dll
+*.exe
+*.pdb
+*.obj
+*.lib
+*.exp
+*.resources
+*.licenses
+
+# Trace, cache, database, and transient validation output.
+*.etl
+*.db
+*.binlog
+*.log
+*.tmp
+*.bak
+*.ran.txt
+*/POC/*Evidence.txt
+*/POC/ExecutionEvidence.txt
+
+# Build and IDE directories.
+bin/
+obj/
+.vs/
+.idea/
+.vscode/
+
+# Python and PowerShell transient files.
+__pycache__/
+*.pyc
+
+# Operating-system metadata.
+Thumbs.db
+Desktop.ini
+.DS_Store
